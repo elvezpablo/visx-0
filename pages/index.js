@@ -9,8 +9,8 @@ import { scaleLinear, scaleBand } from '@visx/scale';
 const data = letterFrequency;
 
 // Define the graph dimensions and margins
-const width = 500;
-const height = 500;
+const width = 600;
+const height = 384;
 const margin = { top: 20, bottom: 20, left: 0, right: 0 };
 
 // Then we'll create some bounds
@@ -43,31 +43,52 @@ const yPoint = compose(yScale, y);
 // Finally we'll embed it all in an SVG
 function BarGraph(props) {
     return (
-        <svg width={width} height={height}>
-            <GradientTealBlue id="teal" />
-            <rect
-                x={0}
-                y={0}
-                width={width}
-                height={height}
-                fill={`url(#teal)`}
-                rx={14}
-            />
-            {data.map((d, i) => {
-                const barHeight = yMax - yPoint(d);
-                return (
-                    <Group key={`bar-${i}`}>
-                        <Bar
-                            x={xPoint(d) + margin.left}
-                            y={yMax - barHeight + margin.top}
-                            height={barHeight}
-                            width={xScale.bandwidth()}
-                            fill="rgba(255,255,255, .4)"
-                        />
-                    </Group>
-                );
-            })}
-        </svg>
+        <>
+            <div className="container">
+                <svg width={width} height={height}>
+                    <GradientTealBlue id="teal" />
+                    <rect
+                        x={0}
+                        y={0}
+                        width={width}
+                        height={height}
+                        fill={`url(#teal)`}
+                        rx={14}
+                    />
+                    {data.map((d, i) => {
+                        const barHeight = yMax - yPoint(d);
+                        return (
+                            <Group key={`bar-${i}`}>
+                                <Bar
+                                    x={xPoint(d) + margin.left}
+                                    y={yMax - barHeight + margin.top}
+                                    height={barHeight}
+                                    width={xScale.bandwidth()}
+                                    fill="rgba(255,255,255, .4)"
+                                />
+                            </Group>
+                        );
+                    })}
+                </svg>
+
+            </div>
+            <style jsx>{`
+        .container {
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen",
+            "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+            sans-serif;
+        }
+      `}</style>
+        </>
     );
 }
 
